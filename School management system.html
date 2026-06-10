@@ -1,1 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced School Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 2px solid rgba(220, 20, 60, 0.3);
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(220, 20, 60, 0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(220, 20, 60, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(220, 20, 60, 1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        header {
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            animation: slideInDown 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: slideInLeft 3s infinite;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #1a1a1a;
+            border-bottom: 3px solid #dc143c;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 18px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-tabs button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #dc143c;
+            transition: width 0.3s;
+        }
+
+        .nav-tabs button:hover {
+            color: #dc143c;
+        }
+
+        .nav-tabs button:hover::before {
+            width: 100%;
+        }
+
+        .nav-tabs button.active {
+            color: #ffffff;
+            background: rgba(220, 20, 60, 0.1);
+            border-bottom-color: #dc143c;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .nav-tabs button.active::before {
+            width: 100%;
+        }
+
+        .content {
+            padding: 40px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            color: #dc143c;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #dc143c;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            background: #2a2a2a;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #dc143c;
+            box-shadow: 0 0 15px rgba(220, 20, 60, 0.5);
+            background: #333;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2em;
+            }
+
+            .nav-tabs button {
+                min-width: 100px;
+                padding: 12px;
+            }
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s;
+            z-index: 0;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #8b0000;
+            color: white;
+            padding: 10px 18px;
+            font-size: 0.9em;
+        }
+
+        .btn-danger:hover {
+            background: #dc143c;
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.5);
+            transform: scale(1.05);
+        }
+
+        .btn-edit {
+            background: #1e90ff;
+            color: white;
+            padding: 10px 18px;
+            font-size: 0.9em;
+            margin-right: 5px;
+        }
+
+        .btn-edit:hover {
+            background: #1873cc;
+            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #2a2a2a;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.2);
+        }
+
+        th {
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            padding: 18px;
+            text-align: left;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #3a3a3a;
+            color: #ddd;
+        }
+
+        tr {
+            transition: all 0.3s;
+        }
+
+        tr:hover {
+            background: rgba(220, 20, 60, 0.1);
+            transform: scale(1.01);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-primary {
+            background: rgba(30, 144, 255, 0.2);
+            color: #1e90ff;
+            border: 1px solid #1e90ff;
+        }
+
+        .badge-success {
+            background: rgba(50, 205, 50, 0.2);
+            color: #32cd32;
+            border: 1px solid #32cd32;
+        }
+
+        .badge-warning {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        .badge-danger {
+            background: rgba(220, 20, 60, 0.2);
+            color: #dc143c;
+            border: 1px solid #dc143c;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(220, 20, 60, 0.5);
+        }
+
+        .stat-card h3 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 0.95em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 20px 60px rgba(220, 20, 60, 0.4);
+            border: 2px solid #dc143c;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #dc143c;
+            padding-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            color: #dc143c;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #dc143c;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(220, 20, 60, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .success-msg {
+            background: rgba(50, 205, 50, 0.2);
+            color: #32cd32;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #32cd32;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: slideInLeft 0.3s ease;
+        }
+
+        .success-msg.show {
+            display: block;
+        }
+
+        .error-msg {
+            background: rgba(220, 20, 60, 0.2);
+            color: #dc143c;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #dc143c;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            padding: 12px 20px;
+            border: 2px solid #dc143c;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: #2a2a2a;
+            border: 2px solid #dc143c;
+            border-radius: 10px;
+            padding: 20px;
+            color: #ddd;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .info-card h4 {
+            color: #dc143c;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #dc143c;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: rotate 1s linear infinite;
+        }
+
+        .chart-container {
+            background: #2a2a2a;
+            border: 2px solid #dc143c;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .chart-container h3 {
+            color: #dc143c;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+            border: 1px solid #dc143c;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc143c 0%, #ff6b6b 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes blink {
+            0%, 49%, 100% {
+                opacity: 1;
+            }
+            50%, 99% {
+                opacity: 0.3;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.5);
+            z-index: 2000;
+            animation: slideInUp 0.5s ease;
+            max-width: 350px;
+        }
+
+        .notification.hide {
+            animation: slideInUp 0.5s ease reverse;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏫 ADVANCED SCHOOL MANAGEMENT SYSTEM</h1>
+            <p>Professional Management Portal for Educational Excellence</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="nav-btn active" data-tab="dashboard">📊 Dashboard</button>
+            <button class="nav-btn" data-tab="students">👨‍🎓 Students</button>
+            <button class="nav-btn" data-tab="teachers">👨‍🏫 Teachers</button>
+            <button class="nav-btn" data-tab="classes">🏫 Classes</button>
+            <button class="nav-btn" data-tab="schedule">📅 Schedule</button>
+            <button class="nav-btn" data-tab="attendance">✅ Attendance</button>
+            <button class="nav-btn" data-tab="reports">📈 Reports</button>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>📊 Dashboard Overview</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3 id="total-students">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="total-teachers">0</h3>
+                        <p>Total Teachers</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="total-classes">0</h3>
+                        <p>Total Classes</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="avg-attendance">0%</h3>
+                        <p>Average Attendance</p>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>📈 Attendance Statistics</h3>
+                    <div style="margin-bottom: 20px;">
+                        <p style="color: #dc143c; margin-bottom: 10px;">Present Rate</p>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" id="present-rate" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <p style="color: #ffa500; margin-bottom: 10px;">Absent Rate</p>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" id="absent-rate" style="background: linear-gradient(90deg, #ffa500 0%, #ff8c00 100%); width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recent-activities">
+                    <h3 style="color: #dc143c; margin-top: 30px; margin-bottom: 20px;">📋 Recent Activities</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activities-list">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #666;">No activities yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Students Tab -->
+            <div id="students" class="tab-content">
+                <h2>👨‍🎓 Students Management</h2>
+                <div class="action-bar">
+                    <div class="search-box">
+                        <input type="text" id="student-search" placeholder="Search students...">
+                    </div>
+                    <button class="btn-primary" onclick="openStudentModal()">➕ Add Student</button>
+                </div>
+                <div class="success-msg" id="student-success-msg">✓ Student added successfully!</div>
+                <div class="error-msg" id="student-error-msg">✗ Error adding student!</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Father Name</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-list">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666;">No students added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Teachers Tab -->
+            <div id="teachers" class="tab-content">
+                <h2>👨‍🏫 Teachers Management</h2>
+                <div class="action-bar">
+                    <div class="search-box">
+                        <input type="text" id="teacher-search" placeholder="Search teachers...">
+                    </div>
+                    <button class="btn-primary" onclick="openTeacherModal()">➕ Add Teacher</button>
+                </div>
+                <div class="success-msg" id="teacher-success-msg">✓ Teacher added successfully!</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Qualification</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachers-list">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666;">No teachers added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Classes Tab -->
+            <div id="classes" class="tab-content">
+                <h2>🏫 Classes Management</h2>
+                <div class="action-bar">
+                    <div class="search-box">
+                        <input type="text" id="class-search" placeholder="Search classes...">
+                    </div>
+                    <button class="btn-primary" onclick="openClassModal()">➕ Add Class</button>
+                </div>
+                <div class="success-msg" id="class-success-msg">✓ Class added successfully!</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class Name</th>
+                            <th>Section</th>
+                            <th>Class Teacher</th>
+                            <th>Strength</th>
+                            <th>Room No</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classes-list">
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: #666;">No classes added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div id="schedule" class="tab-content">
+                <h2>📅 Class Schedule</h2>
+                <div class="action-bar">
+                    <button class="btn-primary" onclick="openScheduleModal()">➕ Add Schedule</button>
+                </div>
+                <div class="success-msg" id="schedule-success-msg">✓ Schedule added successfully!</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Room</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-list">
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #666;">No schedule added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Attendance Tab -->
+            <div id="attendance" class="tab-content">
+                <h2>✅ Attendance Management</h2>
+                <div class="action-bar">
+                    <button class="btn-primary" onclick="openAttendanceModal()">➕ Mark Attendance</button>
+                </div>
+                <div class="success-msg" id="attendance-success-msg">✓ Attendance marked successfully!</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Class</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-list">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #666;">No attendance recorded yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <h2>📈 Reports & Analytics</h2>
+                <div class="stats-row">
+                    <div class="info-card">
+                        <h4>Student Enrollment</h4>
+                        <div id="enrollment-stats" style="font-size: 1.3em; color: #dc143c; font-weight: bold;">0 Students</div>
+                    </div>
+                    <div class="info-card">
+                        <h4>Faculty Count</h4>
+                        <div id="faculty-stats" style="font-size: 1.3em; color: #1e90ff; font-weight: bold;">0 Teachers</div>
+                    </div>
+                    <div class="info-card">
+                        <h4>Classes Offered</h4>
+                        <div id="classes-stats" style="font-size: 1.3em; color: #32cd32; font-weight: bold;">0 Classes</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>📊 Attendance Performance</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Records</td>
+                                <td id="total-records">0</td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <td>Present</td>
+                                <td id="present-count">0</td>
+                                <td id="present-percentage">0%</td>
+                            </tr>
+                            <tr>
+                                <td>Absent</td>
+                                <td id="absent-count">0</td>
+                                <td id="absent-percentage">0%</td>
+                            </tr>
+                            <tr>
+                                <td>Leave</td>
+                                <td id="leave-count">0</td>
+                                <td id="leave-percentage">0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Student</h2>
+                <button class="close-btn" onclick="closeModal('studentModal')">&times;</button>
+            </div>
+            <form onsubmit="addStudent(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-roll">Roll No</label>
+                        <input type="text" id="student-roll" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-name">Full Name</label>
+                        <input type="text" id="student-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-class">Class</label>
+                        <select id="student-class" required>
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-dob">Date of Birth</label>
+                        <input type="date" id="student-dob" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-father">Father Name</label>
+                        <input type="text" id="student-father" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-contact">Contact No</label>
+                        <input type="tel" id="student-contact" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="student-address">Address</label>
+                    <textarea id="student-address" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Add Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Teacher Modal -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Teacher</h2>
+                <button class="close-btn" onclick="closeModal('teacherModal')">&times;</button>
+            </div>
+            <form onsubmit="addTeacher(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacher-name">Full Name</label>
+                        <input type="text" id="teacher-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacher-id">Teacher ID</label>
+                        <input type="text" id="teacher-id" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacher-subject">Subject</label>
+                        <input type="text" id="teacher-subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacher-qual">Qualification</label>
+                        <input type="text" id="teacher-qual" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacher-contact">Contact No</label>
+                        <input type="tel" id="teacher-contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacher-email">Email</label>
+                        <input type="email" id="teacher-email" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Add Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Class Modal -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Class</h2>
+                <button class="close-btn" onclick="closeModal('classModal')">&times;</button>
+            </div>
+            <form onsubmit="addClass(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="class-name">Class Name</label>
+                        <input type="text" id="class-name" placeholder="e.g., 10-A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class-section">Section</label>
+                        <input type="text" id="class-section" placeholder="e.g., A, B, C" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="class-teacher">Class Teacher</label>
+                        <select id="class-teacher" required>
+                            <option value="">Select Teacher</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="class-strength">Strength</label>
+                        <input type="number" id="class-strength" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="class-room">Room No</label>
+                    <input type="text" id="class-room" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Add Class</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Schedule</h2>
+                <button class="close-btn" onclick="closeModal('scheduleModal')">&times;</button>
+            </div>
+            <form onsubmit="addSchedule(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sched-class">Class</label>
+                        <select id="sched-class" required>
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sched-subject">Subject</label>
+                        <input type="text" id="sched-subject" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sched-teacher">Teacher</label>
+                        <select id="sched-teacher" required>
+                            <option value="">Select Teacher</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sched-day">Day</label>
+                        <select id="sched-day" required>
+                            <option value="">Select Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sched-time">Time</label>
+                        <input type="time" id="sched-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sched-room">Room No</label>
+                        <input type="text" id="sched-room" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Add Schedule</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Attendance Modal -->
+    <div id="attendanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Mark Attendance</h2>
+                <button class="close-btn" onclick="closeModal('attendanceModal')">&times;</button>
+            </div>
+            <form onsubmit="markAttendance(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attend-date">Date</label>
+                        <input type="date" id="attend-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="attend-class">Class</label>
+                        <select id="attend-class" required onchange="loadStudentsForAttendance()">
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="attend-student">Student</label>
+                    <select id="attend-student" required>
+                        <option value="">Select Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="attend-status">Status</label>
+                    <select id="attend-status" required>
+                        <option value="">Select Status</option>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Leave">Leave</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Mark Attendance</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+        let classes = JSON.parse(localStorage.getItem('classes')) || [];
+        let schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+        let attendance = JSON.parse(localStorage.getItem('attendance')) || [];
+        let activities = JSON.parse(localStorage.getItem('activities')) || [];
+
+        // Tab Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+                if(this.dataset.tab === 'dashboard') {
+                    updateDashboard();
+                } else if(this.dataset.tab === 'reports') {
+                    updateReports();
+                }
+            });
+        });
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openStudentModal() {
+            updateClassSelect('student-class');
+            openModal('studentModal');
+        }
+
+        function openTeacherModal() {
+            openModal('teacherModal');
+        }
+
+        function openClassModal() {
+            updateTeacherSelect('class-teacher');
+            openModal('classModal');
+        }
+
+        function openScheduleModal() {
+            updateClassSelect('sched-class');
+            updateTeacherSelect('sched-teacher');
+            openModal('scheduleModal');
+        }
+
+        function openAttendanceModal() {
+            updateClassSelect('attend-class');
+            document.getElementById('attend-date').valueAsDate = new Date();
+            openModal('attendanceModal');
+        }
+
+        // Update Selects
+        function updateClassSelect(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">Select Class</option>';
+            classes.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls.name;
+                option.textContent = cls.name + ' - ' + cls.section;
+                select.appendChild(option);
+            });
+        }
+
+        function updateTeacherSelect(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">Select Teacher</option>';
+            teachers.forEach(teacher => {
+                const option = document.createElement('option');
+                option.value = teacher.name;
+                option.textContent = teacher.name + ' (' + teacher.subject + ')';
+                select.appendChild(option);
+            });
+        }
+
+        function loadStudentsForAttendance() {
+            const classSelect = document.getElementById('attend-class');
+            const studentSelect = document.getElementById('attend-student');
+            const selectedClass = classSelect.value;
+            
+            studentSelect.innerHTML = '<option value="">Select Student</option>';
+            students.filter(s => s.class === selectedClass).forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.name;
+                option.textContent = student.rollNo + ' - ' + student.name;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        // Add Functions
+        function addStudent(e) {
+            e.preventDefault();
+            const student = {
+                rollNo: document.getElementById('student-roll').value,
+                name: document.getElementById('student-name').value,
+                class: document.getElementById('student-class').value,
+                dob: document.getElementById('student-dob').value,
+                fatherName: document.getElementById('student-father').value,
+                contact: document.getElementById('student-contact').value,
+                address: document.getElementById('student-address').value,
+                status: 'Active',
+                addedDate: new Date().toLocaleDateString()
+            };
+            students.push(student);
+            addActivity('Student Added', student.name, 'success');
+            saveData();
+            showSuccess('student-success-msg');
+            closeModal('studentModal');
+            document.querySelector('#studentModal form').reset();
+            renderStudents();
+        }
+
+        function addTeacher(e) {
+            e.preventDefault();
+            const teacher = {
+                id: document.getElementById('teacher-id').value,
+                name: document.getElementById('teacher-name').value,
+                subject: document.getElementById('teacher-subject').value,
+                qualification: document.getElementById('teacher-qual').value,
+                contact: document.getElementById('teacher-contact').value,
+                email: document.getElementById('teacher-email').value,
+                status: 'Active',
+                addedDate: new Date().toLocaleDateString()
+            };
+            teachers.push(teacher);
+            addActivity('Teacher Added', teacher.name, 'success');
+            saveData();
+            showSuccess('teacher-success-msg');
+            closeModal('teacherModal');
+            document.querySelector('#teacherModal form').reset();
+            renderTeachers();
+        }
+
+        function addClass(e) {
+            e.preventDefault();
+            const cls = {
+                name: document.getElementById('class-name').value,
+                section: document.getElementById('class-section').value,
+                classTeacher: document.getElementById('class-teacher').value,
+                strength: document.getElementById('class-strength').value,
+                room: document.getElementById('class-room').value,
+                addedDate: new Date().toLocaleDateString()
+            };
+            classes.push(cls);
+            addActivity('Class Added', cls.name + '-' + cls.section, 'success');
+            saveData();
+            showSuccess('class-success-msg');
+            closeModal('classModal');
+            document.querySelector('#classModal form').reset();
+            renderClasses();
+        }
+
+        function addSchedule(e) {
+            e.preventDefault();
+            const schedule = {
+                class: document.getElementById('sched-class').value,
+                subject: document.getElementById('sched-subject').value,
+                teacher: document.getElementById('sched-teacher').value,
+                day: document.getElementById('sched-day').value,
+                time: document.getElementById('sched-time').value,
+                room: document.getElementById('sched-room').value,
+                addedDate: new Date().toLocaleDateString()
+            };
+            schedules.push(schedule);
+            addActivity('Schedule Added', schedule.class + ' - ' + schedule.subject, 'success');
+            saveData();
+            showSuccess('schedule-success-msg');
+            closeModal('scheduleModal');
+            document.querySelector('#scheduleModal form').reset();
+            renderSchedules();
+        }
+
+        function markAttendance(e) {
+            e.preventDefault();
+            const attend = {
+                date: document.getElementById('attend-date').value,
+                class: document.getElementById('attend-class').value,
+                student: document.getElementById('attend-student').value,
+                status: document.getElementById('attend-status').value,
+                markedDate: new Date().toLocaleDateString()
+            };
+            attendance.push(attend);
+            addActivity('Attendance Marked', attend.student + ' - ' + attend.status, 'info');
+            saveData();
+            showSuccess('attendance-success-msg');
+            closeModal('attendanceModal');
+            document.querySelector('#attendanceModal form').reset();
+            renderAttendance();
+        }
+
+        // Add Activity
+        function addActivity(action, details, type) {
+            activities.unshift({
+                action: action,
+                details: details,
+                type: type,
+                timestamp: new Date().toLocaleString()
+            });
+            if(activities.length > 10) activities.pop();
+        }
+
+        // Render Functions
+        function renderStudents() {
+            const tbody = document.getElementById('students-list');
+            const filteredStudents = students.filter(s => 
+                s.name.toLowerCase().includes(document.getElementById('student-search')?.value?.toLowerCase() || '')
+            );
+            
+            if(filteredStudents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666;">No students found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredStudents.map((student, index) => `
+                <tr>
+                    <td>${student.rollNo}</td>
+                    <td>${student.name}</td>
+                    <td><span class="badge badge-primary">${student.class}</span></td>
+                    <td>${student.fatherName}</td>
+                    <td>${student.contact}</td>
+                    <td><span class="badge badge-success">${student.status}</span></td>
+                    <td>
+                        <button class="btn-edit" onclick="editStudent(${index})">Edit</button>
+                        <button class="btn-danger" onclick="deleteStudent(${index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderTeachers() {
+            const tbody = document.getElementById('teachers-list');
+            const filteredTeachers = teachers.filter(t => 
+                t.name.toLowerCase().includes(document.getElementById('teacher-search')?.value?.toLowerCase() || '')
+            );
+            
+            if(filteredTeachers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666;">No teachers found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredTeachers.map((teacher, index) => `
+                <tr>
+                    <td>${teacher.id}</td>
+                    <td>${teacher.name}</td>
+                    <td>${teacher.subject}</td>
+                    <td>${teacher.qualification}</td>
+                    <td>${teacher.contact}</td>
+                    <td><span class="badge badge-success">${teacher.status}</span></td>
+                    <td>
+                        <button class="btn-edit" onclick="editTeacher(${index})">Edit</button>
+                        <button class="btn-danger" onclick="deleteTeacher(${index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderClasses() {
+            const tbody = document.getElementById('classes-list');
+            const filteredClasses = classes.filter(c => 
+                c.name.toLowerCase().includes(document.getElementById('class-search')?.value?.toLowerCase() || '')
+            );
+            
+            if(filteredClasses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #666;">No classes found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredClasses.map((cls, index) => `
+                <tr>
+                    <td>${cls.name}</td>
+                    <td>${cls.section}</td>
+                    <td>${cls.classTeacher}</td>
+                    <td>${cls.strength}</td>
+                    <td>${cls.room}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editClass(${index})">Edit</button>
+                        <button class="btn-danger" onclick="deleteClass(${index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSchedules() {
+            const tbody = document.getElementById('schedule-list');
+            if(schedules.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666;">No schedule added yet</td></tr>';
+                return;
+            }
+            tbody.innerHTML = schedules.map((schedule, index) => `
+                <tr>
+                    <td><span class="badge badge-primary">${schedule.class}</span></td>
+                    <td>${schedule.subject}</td>
+                    <td>${schedule.teacher}</td>
+                    <td><span class="badge badge-warning">${schedule.day}</span></td>
+                    <td>${schedule.time}</td>
+                    <td>${schedule.room}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editSchedule(${index})">Edit</button>
+                        <button class="btn-danger" onclick="deleteSchedule(${index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAttendance() {
+            const tbody = document.getElementById('attendance-list');
+            if(attendance.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666;">No attendance recorded yet</td></tr>';
+                return;
+            }
+            tbody.innerHTML = attendance.slice(-20).reverse().map((record, index) => `
+                <tr>
+                    <td>${record.date}</td>
+                    <td><span class="badge badge-primary">${record.class}</span></td>
+                    <td>${record.student}</td>
+                    <td>
+                        <span class="badge ${record.status === 'Present' ? 'badge-success' : record.status === 'Absent' ? 'badge-danger' : 'badge-warning'}">
+                            ${record.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-danger" onclick="deleteAttendance(${attendance.length - 20 + index})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete Functions
+        function deleteStudent(index) {
+            if(confirm('Are you sure you want to delete this student?')) {
+                students.splice(index, 1);
+                saveData();
+                renderStudents();
+            }
+        }
+
+        function deleteTeacher(index) {
+            if(confirm('Are you sure you want to delete this teacher?')) {
+                teachers.splice(index, 1);
+                saveData();
+                renderTeachers();
+            }
+        }
+
+        function deleteClass(index) {
+            if(confirm('Are you sure you want to delete this class?')) {
+                classes.splice(index, 1);
+                saveData();
+                renderClasses();
+            }
+        }
+
+        function deleteSchedule(index) {
+            if(confirm('Are you sure?')) {
+                schedules.splice(index, 1);
+                saveData();
+                renderSchedules();
+            }
+        }
+
+        function deleteAttendance(index) {
+            if(confirm('Are you sure?')) {
+                attendance.splice(index, 1);
+                saveData();
+                renderAttendance();
+            }
+        }
+
+        // Edit Functions
+        function editStudent(index) {
+            alert('Edit functionality - Coming soon!');
+        }
+
+        function editTeacher(index) {
+            alert('Edit functionality - Coming soon!');
+        }
+
+        function editClass(index) {
+            alert('Edit functionality - Coming soon!');
+        }
+
+        function editSchedule(index) {
+            alert('Edit functionality - Coming soon!');
+        }
+
+        // Save Data
+        function saveData() {
+            localStorage.setItem('students', JSON.stringify(students));
+            localStorage.setItem('teachers', JSON.stringify(teachers));
+            localStorage.setItem('classes', JSON.stringify(classes));
+            localStorage.setItem('schedules', JSON.stringify(schedules));
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+            localStorage.setItem('activities', JSON.stringify(activities));
+            updateDashboard();
+        }
+
+        // Show Success Message
+        function showSuccess(msgId) {
+            const msg = document.getElementById(msgId);
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+
+        // Update Dashboard
+        function updateDashboard() {
+            document.getElementById('total-students').textContent = students.length;
+            document.getElementById('total-teachers').textContent = teachers.length;
+            document.getElementById('total-classes').textContent = classes.length;
+            
+            let avgAttendance = 0;
+            let presentCount = 0;
+            
+            if(attendance.length > 0) {
+                presentCount = attendance.filter(a => a.status === 'Present').length;
+                avgAttendance = Math.round((presentCount / attendance.length) * 100);
+            }
+            
+            document.getElementById('avg-attendance').textContent = avgAttendance + '%';
+            document.getElementById('present-rate').style.width = avgAttendance + '%';
+            document.getElementById('absent-rate').style.width = (100 - avgAttendance) + '%';
+
+            // Render activities
+            const activitiesList = document.getElementById('activities-list');
+            if(activities.length === 0) {
+                activitiesList.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">No activities yet</td></tr>';
+            } else {
+                activitiesList.innerHTML = activities.slice(0, 5).map(act => `
+                    <tr>
+                        <td>${act.action}</td>
+                        <td>${act.details}</td>
+                        <td>${act.timestamp}</td>
+                        <td><span class="badge badge-${act.type}">${act.type.toUpperCase()}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Update Reports
+        function updateReports() {
+            document.getElementById('enrollment-stats').textContent = students.length + ' Students';
+            document.getElementById('faculty-stats').textContent = teachers.length + ' Teachers';
+            document.getElementById('classes-stats').textContent = classes.length + ' Classes';
+
+            const totalRecords = attendance.length;
+            const presentCount = attendance.filter(a => a.status === 'Present').length;
+            const absentCount = attendance.filter(a => a.status === 'Absent').length;
+            const leaveCount = attendance.filter(a => a.status === 'Leave').length;
+
+            document.getElementById('total-records').textContent = totalRecords;
+            document.getElementById('present-count').textContent = presentCount;
+            document.getElementById('absent-count').textContent = absentCount;
+            document.getElementById('leave-count').textContent = leaveCount;
+
+            if(totalRecords > 0) {
+                document.getElementById('present-percentage').textContent = Math.round((presentCount / totalRecords) * 100) + '%';
+                document.getElementById('absent-percentage').textContent = Math.round((absentCount / totalRecords) * 100) + '%';
+                document.getElementById('leave-percentage').textContent = Math.round((leaveCount / totalRecords) * 100) + '%';
+            }
+        }
+
+        // Search functionality
+        document.getElementById('student-search')?.addEventListener('input', renderStudents);
+        document.getElementById('teacher-search')?.addEventListener('input', renderTeachers);
+        document.getElementById('class-search')?.addEventListener('input', renderClasses);
+
+        // Close modal on outside click
+        window.addEventListener('click', function(e) {
+            if(e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Initial render
+        renderStudents();
+        renderTeachers();
+        renderClasses();
+        renderSchedules();
+        renderAttendance();
+        updateDashboard();
+    </script>
+</body>
+</html>
