@@ -1,6 +1,6 @@
-# School 🏫 
+# DIT Project
 
-Dockerized [hollywood].
+Dockerized [Zubair King 🧑‍🎓].
 
 A tiny tool which turns your terminal into a Hollywood style real time hacking scene.
 
