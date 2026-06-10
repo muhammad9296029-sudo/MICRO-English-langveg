@@ -2,15 +2,20 @@
 
 Dockerized [Zubair King 🧑‍🎓].
 
-A tiny tool which turns your terminal into a Hollywood style real time hacking scene.
+This DIT project is make in 10/jun/2026.
+It is make in html code but use in html java & more code.
+this is have a database.
+etc 
 
-It works well on Windows, Linux and macOS if you have Docker installed.
+DIT_project. v 1.5
+
 
 ![screenshot]
 
 ## Usage
 
-`docker run --rm -it bcbcarl/hollywood`
+`install in Kali Linux 
+git clone https://github.com/muhammad9296029-sudo/MICRO-English-langveg.git`
 
 ## License
 
@@ -20,7 +25,7 @@ MIT
 [screenshot]: screenshot.png
 ## License
 
-MIT
+
 
 [hollywood]: https://github.com/muhammad9296029-sudo/MICRO-English-langveg.git
 [screenshot]: .png
