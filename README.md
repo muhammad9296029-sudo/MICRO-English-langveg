@@ -18,3 +18,9 @@ MIT
 
 [hollywood]: https://github.com/muhammad9296029-sudo/MICRO-English-langveg.git
 [screenshot]: screenshot.png
+## License
+
+MIT
+
+[hollywood]: https://github.com/muhammad9296029-sudo/MICRO-English-langveg.git
+[screenshot]: .png
